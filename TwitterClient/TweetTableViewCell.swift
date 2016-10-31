@@ -11,6 +11,7 @@ import AlamofireImage
 
 class TweetTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var timeText: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userScreenName: UILabel!
@@ -33,6 +34,7 @@ class TweetTableViewCell: UITableViewCell {
     
     func repaint() {
         if let tweet = self.tweet{
+            timeText.text = tweet.displayTimeSinceCreated
             tweetBody.text = tweet.text
             userImage.af_setImage(withURL: tweet.user.profileImageUrl)
             userName.text = tweet.user.name

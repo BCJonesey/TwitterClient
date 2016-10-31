@@ -65,6 +65,7 @@
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="lyT-88-ZV1" secondAttribute="bottom" constant="8" id="i4Y-UL-bvd"/>
             </constraints>
             <connections>
+                <outlet property="timeText" destination="5MQ-PL-cWB" id="MSv-Bj-2oD"/>
                 <outlet property="tweetBody" destination="iaU-Zo-akO" id="Ik2-qr-8Oc"/>
                 <outlet property="userImage" destination="lyT-88-ZV1" id="ale-Ob-hGr"/>
                 <outlet property="userName" destination="e4d-CO-X0F" id="VWL-kD-Q5G"/>

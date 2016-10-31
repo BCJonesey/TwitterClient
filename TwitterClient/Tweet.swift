@@ -37,7 +37,7 @@ class Tweet: NSObject {
             dateComponentsFormatter.allowedUnits = [.year,.month,.weekOfYear,.day,.hour,.minute,.second]
             dateComponentsFormatter.maximumUnitCount = 1
             dateComponentsFormatter.unitsStyle = .abbreviated
-            return dateComponentsFormatter.string(from: Date(), to: createdAt) ?? ""
+            return dateComponentsFormatter.string(from: createdAt, to: Date()) ?? ""
         }
         return ""
     }
