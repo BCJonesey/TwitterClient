@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="POk-WP-zw6">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Tweets View Controller-->
+        <scene sceneID="I4J-bX-Ubf">
+            <objects>
+                <viewController id="lpj-fi-wpu" customClass="TweetsViewController" customModule="TwitterClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="I5a-qr-doq"/>
+                        <viewControllerLayoutGuide type="bottom" id="kaa-bw-19d"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="S6r-xh-Dei">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rkd-XB-QvJ">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="rkd-XB-QvJ" firstAttribute="top" secondItem="S6r-xh-Dei" secondAttribute="top" id="OgY-9L-3QJ"/>
+                            <constraint firstAttribute="trailing" secondItem="rkd-XB-QvJ" secondAttribute="trailing" id="a0c-GF-Cec"/>
+                            <constraint firstItem="rkd-XB-QvJ" firstAttribute="bottom" secondItem="kaa-bw-19d" secondAttribute="top" id="e0r-Q6-waK"/>
+                            <constraint firstItem="rkd-XB-QvJ" firstAttribute="leading" secondItem="S6r-xh-Dei" secondAttribute="leading" id="wiP-Lx-2V0"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="D7y-J9-fU8">
+                        <barButtonItem key="rightBarButtonItem" title="New Tweet" id="yH1-8l-H68">
+                            <connections>
+                                <action selector="newTweetButtonPressed:" destination="lpj-fi-wpu" id="cyx-RC-doW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="rkd-XB-QvJ" id="8P7-1d-Dwa"/>
+                        <segue destination="Cvd-B5-Xg0" kind="show" identifier="ShowTweet" id="z1Q-iM-p8g"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VQN-dZ-yZx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2360.8000000000002" y="110.19490254872565"/>
+        </scene>
+        <!--Tweet View Controller-->
+        <scene sceneID="LsU-DG-4h8">
+            <objects>
+                <viewController id="Cvd-B5-Xg0" customClass="TweetViewController" customModule="TwitterClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WEm-Ex-07J"/>
+                        <viewControllerLayoutGuide type="bottom" id="7Ip-5W-YEW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4LA-Aj-5nP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n8W-UH-DzB" customClass="AnimatedUIButton" customModule="TwitterClient" customModuleProvider="target">
+                                <frame key="frameInset" minX="77" minY="267" width="218" height="197"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="image" value="heart"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H9l-xP-ATe">
+                                <frame key="frameInset" minX="190" minY="205" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="reply"/>
+                                <connections>
+                                    <action selector="replyButtonPressed:" destination="Cvd-B5-Xg0" eventType="touchUpInside" id="lda-Jx-gDq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4WK-8a-7id">
+                                <frame key="frameInset" minX="116" minY="229" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="reply"/>
+                                <connections>
+                                    <action selector="replyButtonPressed:" destination="Cvd-B5-Xg0" eventType="touchUpInside" id="Hwa-pY-mpv"/>
+                                    <action selector="retweetButtonPressed:" destination="Cvd-B5-Xg0" eventType="touchUpInside" id="dRP-fn-ucO"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="likeButton" destination="n8W-UH-DzB" id="r8F-vk-0YL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gzc-XD-aSl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3188" y="109.29535232383809"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="WjS-3l-1XI">
+            <objects>
+                <navigationController storyboardIdentifier="TweetsNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="POk-WP-zw6" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="WSe-OY-Y3E">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="lpj-fi-wpu" kind="relationship" relationship="rootViewController" id="syP-BT-qnz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tG3-Em-QGc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1421.5999999999999" y="110.19490254872565"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="heart" width="128" height="128"/>
+    </resources>
+</document>

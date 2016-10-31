@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AuthenticationViewController" customModule="TwitterClient" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="webView" destination="Vbt-V7-J3Z" id="nsf-Kv-lgB"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vbt-V7-J3Z">
+                    <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </webView>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72G-Iu-dZp">
+                    <items>
+                        <navigationItem title="Log In" id="by9-r1-2Kv">
+                            <barButtonItem key="leftBarButtonItem" title="Cancel" id="ABq-GU-LeI">
+                                <connections>
+                                    <action selector="cancelButtonPressed:" destination="-1" id="5RM-Q9-Sji"/>
+                                </connections>
+                            </barButtonItem>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="72G-Iu-dZp" firstAttribute="trailing" secondItem="Vbt-V7-J3Z" secondAttribute="trailing" id="Q5H-0a-53h"/>
+                <constraint firstItem="72G-Iu-dZp" firstAttribute="leading" secondItem="Vbt-V7-J3Z" secondAttribute="leading" id="XRF-du-323"/>
+                <constraint firstItem="72G-Iu-dZp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="YR8-y4-ULS"/>
+                <constraint firstAttribute="trailing" secondItem="72G-Iu-dZp" secondAttribute="trailing" id="awb-ko-iSk"/>
+                <constraint firstItem="Vbt-V7-J3Z" firstAttribute="top" secondItem="72G-Iu-dZp" secondAttribute="bottom" id="epA-hR-ojC"/>
+                <constraint firstAttribute="bottom" secondItem="Vbt-V7-J3Z" secondAttribute="bottom" id="q9R-v7-gSk"/>
+                <constraint firstItem="72G-Iu-dZp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="yep-sw-4KQ"/>
+            </constraints>
+            <point key="canvasLocation" x="33.5" y="131.5"/>
+        </view>
+    </objects>
+</document>
