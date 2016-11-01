@@ -28,9 +28,14 @@ class TweetViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        
+        
         favoriteButton.imageColorOn = TwitterColor.red
-        favoriteButton.addTarget(self, action: #selector(likeButtonPressed(sender:)), for: .touchUpInside)
-        favoriteButton.isSelected = tweet?.favorited ?? false
+        favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed(sender:)), for: .touchUpInside)
+        replyButton.addTarget(self, action: #selector(replyButtonPressed(sender:)), for: .touchUpInside)
+        retweetButton.addTarget(self, action: #selector(retweetButtonPressed(sender:)), for: .touchUpInside)
+        retweetButton.imageColorOn = TwitterColor.green
+        
         
         
         self.userName.text = self.tweet?.user.name
@@ -40,20 +45,23 @@ class TweetViewController: UIViewController {
             
             self.userImage.layer.cornerRadius = 5.0
             self.userImage.clipsToBounds = true
+            
         }
         self.tweetText.text = self.tweet?.text
-        
-        
-        
+        retweetNumber.text = "\((tweet?.retweetCount)!)"
+        favNumber.text = "\((tweet?.favoriteCount)!)"
         
     }
 
     override func viewDidLayoutSubviews() {
 
+       
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
         self.replyButton.updateLayers()
         self.retweetButton.updateLayers()
         self.favoriteButton.updateLayers()
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -71,7 +79,7 @@ class TweetViewController: UIViewController {
     }
     */
     
-    func likeButtonPressed(sender: AnimatedUIButton) {
+    func favoriteButtonPressed(sender: AnimatedUIButton) {
         if sender.isSelected {
             // deselect
             sender.deselect()
@@ -80,12 +88,27 @@ class TweetViewController: UIViewController {
             sender.select()
             tweet?.favorite()
         }
+        favNumber.text = "\((tweet?.favoriteCount)!)"
     }
     
-    @IBAction func replyButtonPressed(_ sender: AnyObject) {
+    func retweetButtonPressed(sender: AnimatedUIButton) {
+        if sender.isSelected {
+            // deselect
+            sender.deselect()
+        } else {
+            // select with animation
+            sender.select()
+            tweet?.retweet()
+        }
+        retweetNumber.text = "\((tweet?.retweetCount)!)"
+    }
+    
+    func replyButtonPressed(sender: AnimatedUIButton) {
         let newTweetViewController = NewTweetViewController(replyTo: tweet)
         self.present(newTweetViewController, animated: true, completion: nil)
     }
+    
+
     
     @IBAction func retweetButtonPressed(_ sender: AnyObject) {
         

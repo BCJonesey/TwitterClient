@@ -38,6 +38,9 @@ class User: NSObject {
         }
         
     }
+    class func clearCurrentUser(){
+        currentUser = nil
+    }
     
     private class var currentUser : User?{
         get{

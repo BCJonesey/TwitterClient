@@ -87,12 +87,13 @@ class TweetTableViewCell: UITableViewCell {
                 
             self.timeText.text = tweet.displayTimeSinceCreated
             self.tweetBody.text = tweet.text
-            DispatchQueue.main.async {
-            self.userImage.setImageWith(self.tweet!.user.profileImageUrl)
+            userImage.setImageWith(tweet.user.profileImageUrl)
+            
+            
             
             self.userImage.layer.cornerRadius = 5.0
             self.userImage.clipsToBounds = true
-            }
+            
             
             
             

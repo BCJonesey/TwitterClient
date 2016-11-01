@@ -43,6 +43,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="D7y-J9-fU8">
+                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="RUJ-tU-tSb">
+                            <connections>
+                                <action selector="logOut:" destination="lpj-fi-wpu" id="REq-fK-oLh"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="compose" id="yH1-8l-H68">
                             <connections>
                                 <action selector="newTweetButtonPressed:" destination="lpj-fi-wpu" id="cyx-RC-doW"/>
@@ -112,7 +117,6 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="PLi-1P-PFG" secondAttribute="height" multiplier="54:38" id="mjm-pQ-L3W"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="image" keyPath="image" value="reply"/>
                                 </userDefinedRuntimeAttributes>
@@ -121,7 +125,6 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="1gC-ye-r1Z" secondAttribute="height" multiplier="22:13" id="AmN-cT-apo"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="image" keyPath="image" value="reply"/>
                                 </userDefinedRuntimeAttributes>
@@ -135,7 +138,6 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="yuE-ZD-QsP" secondAttribute="height" multiplier="1:1" id="AKa-oF-OuT"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="image" keyPath="image" value="heart"/>
                                 </userDefinedRuntimeAttributes>

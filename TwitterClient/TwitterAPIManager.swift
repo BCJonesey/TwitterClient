@@ -104,6 +104,10 @@ extension TwitterAPIManager {
 
 // Auth code
 extension TwitterAPIManager {
+    func logOut()  {
+        User.clearCurrentUser()
+        self.deauthorize()
+    }
     
     func login(controller:UIViewController, success:@escaping ()->()) {
         

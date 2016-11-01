@@ -86,7 +86,7 @@ class NewTweetViewController: UIViewController {
   
     @IBAction func tweetButtonPressed(_ sender: AnyObject) {
         print(textView.text)
-        TwitterAPIManager.shared.createTweet(status: textView.text, reply: nil, success: { (tweet:Tweet) in
+        TwitterAPIManager.shared.createTweet(status: textView.text ?? "", reply: nil, success: { (tweet:Tweet) in
             print("tweet created")
             print(tweet.id)
             }) { 

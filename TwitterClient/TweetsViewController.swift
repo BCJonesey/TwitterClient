@@ -62,6 +62,12 @@ class TweetsViewController: UIViewController {
         })
     }
 
+    @IBAction func logOut(_ sender: AnyObject) {
+        TwitterAPIManager.shared.logOut()
+        TwitterAPIManager.shared.login(controller: self,success: {
+            self.getData(refreshControl: nil)
+        })
+    }
     
     @IBAction func newTweetButtonPressed(_ sender: AnyObject) {
         let newTweetViewController = NewTweetViewController(replyTo: nil)
