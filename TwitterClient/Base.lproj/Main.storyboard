@@ -126,7 +126,7 @@
                                     <constraint firstAttribute="width" secondItem="1gC-ye-r1Z" secondAttribute="height" multiplier="22:13" id="AmN-cT-apo"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="image" keyPath="image" value="reply"/>
+                                    <userDefinedRuntimeAttribute type="image" keyPath="image" value="retweet"/>
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sNt-DO-n0S">
@@ -216,5 +216,6 @@
         <image name="egg" width="400" height="400"/>
         <image name="heart" width="128" height="128"/>
         <image name="reply" width="54" height="38"/>
+        <image name="retweet" width="68" height="41"/>
     </resources>
 </document>
