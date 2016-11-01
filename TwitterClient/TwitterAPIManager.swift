@@ -30,21 +30,45 @@ extension TwitterAPIManager {
         }
     }
     
-    func favorite(tweet: Tweet, success: @escaping ()->(), failure: @escaping ()->()) {
-        self.post("1.1/favorites/create.json", parameters: ["id":tweet.id], progress: nil, success: { (task:URLSessionDataTask, response: Any?) in
-             success()
+    func favorite(tweet: Tweet) {
+        self.post("1.1/favorites/create.json?id=\(tweet.id)", parameters: nil, progress: nil, success: { (task:URLSessionDataTask, response: Any?) in
+            let data = response as! NSDictionary
+            print("fav created")
+            print(data)
         }) { (task: URLSessionDataTask?, error: Error) in
             print(error.localizedDescription)
-            failure()
+            print("couldnt crate fav")
         }
     }
-    
-    func retweet(tweet: Tweet, success: @escaping ()->(), failure: @escaping ()->()) {
-        self.post("1.1/statuses/retweet/\(tweet.id).json", parameters: [:], progress: nil, success: { (task:URLSessionDataTask, response: Any?) in
-            success()
+    func destroyFavorite(tweet: Tweet) {
+        self.post("1.1/favorites/destroy.json?id=\(tweet.id)", parameters: nil, progress: nil, success: { (task:URLSessionDataTask, response: Any?) in
+            let data = response as! NSDictionary
+            print("fav destroyed")
+            print(data)
         }) { (task: URLSessionDataTask?, error: Error) in
             print(error.localizedDescription)
-            failure()
+            print("couldnt destroy fav")
+        }
+    }
+
+    func retweet(tweet: Tweet) {
+        self.post("1.1/statuses/retweet/\(tweet.id).json", parameters: nil, progress: nil, success: { (task:URLSessionDataTask, response: Any?) in
+            let data = response as! NSDictionary
+            print("retweet created")
+            print(data)
+        }) { (task: URLSessionDataTask?, error: Error) in
+            print(error.localizedDescription)
+            print("couldnt create retweet")
+        }
+    }
+    func destroyRetweet(tweet: Tweet) {
+        self.post("1.1/statuses/unretweet/\(tweet.id).json", parameters: nil, progress: nil, success: { (task:URLSessionDataTask, response: Any?) in
+            let data = response as! NSDictionary
+            print("retweet destroyed")
+            print(data)
+        }) { (task: URLSessionDataTask?, error: Error) in
+            print(error.localizedDescription)
+            print("couldnt destroy retweet")
         }
     }
     
@@ -59,6 +83,20 @@ extension TwitterAPIManager {
         }
     }
     
+    func getCurrentUser(success: @escaping (User)->()){
+        self.get("1.1/account/verify_credentials.json", parameters: nil, progress: nil, success: { (task:URLSessionDataTask?, response:Any?) in
+            if let data = response as? NSDictionary{
+                
+                success(User(data))
+            }
+            
+            
+            
+        }) { (task:URLSessionDataTask?, error:Error) in
+            print(error.localizedDescription)
+        }
+    }
+    
     
     
 }
@@ -68,6 +106,7 @@ extension TwitterAPIManager {
 extension TwitterAPIManager {
     
     func login(controller:UIViewController, success:@escaping ()->()) {
+        
         if(self.isAuthorized){
             success()
         }
@@ -78,6 +117,7 @@ extension TwitterAPIManager {
                 let url = URL(string: ben.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!)!
                 let viewController = AuthenticationViewController(authUrl: url, success: { (query:String) in
                     self.fetchAccessToken(withPath: "oauth/access_token", method: "POST", requestToken: BDBOAuth1Credential.init(queryString: query), success: { (accessToken: BDBOAuth1Credential?) -> Void in
+                        User.getCurrentUser(success: nil)
                         success()
                         }
                         , failure: { (error:Error?) -> Void in
@@ -101,46 +141,14 @@ extension TwitterAPIManager {
 }
 
 class TwitterColor: NSObject {
-    static let blueColor = UIColor(red: 29/255, green: 161/256, blue: 242/256, alpha: 1)
-    static let redColor = UIColor(red: 232/255, green: 28/256, blue: 79/256, alpha: 1)
-    static let greenColor = UIColor(red: 25/255, green: 207/256, blue: 134/256, alpha: 1)
-    /*
-     Black
-     HEX #14171A
-     RGB 20 23 26
-     CMYK 76 68 63 78
-     PANTONE Black 7 C
-     
-     Dark Gray
-     HEX #657786
-     RGB 101 119 134
-     CMYK 65 46 37 8
-     PANTONE Cool Gray 9 C
-     
-     Light Gray
-     HEX #AAB8C2
-     RGB 170 184 194
-     CMYK 34 20 18 0
-     PANTONE Cool Gray 7 C
-     
-     Extra Light Gray
-     HEX #E1E8ED
-     RGB 225 232 237
-     CMYK 10 4 4 0
-     PANTONE Cool Gray 3 C
-     
-     Extra Extra Light Gray
-     HEX #F5F8FA
-     RGB 245 248 250
-     CMYK 3 1 1 0
-     PANTONE Cool Gray 1 C
-     
-     White
-     HEX #FFFFFF
-     RGB 255 255 255
-     C
-     */
-    
-
+    static let blue = UIColor(red: 29/255, green: 161/256, blue: 242/256, alpha: 1)
+    static let red = UIColor(red: 232/255, green: 28/256, blue: 79/256, alpha: 1)
+    static let green = UIColor(red: 25/255, green: 207/256, blue: 134/256, alpha: 1)
+    static let black = UIColor(red: 20/255, green: 23/256, blue: 26/256, alpha: 1)
+    static let darkGrey = UIColor(red: 101/255, green: 119/256, blue: 134/256, alpha: 1)
+    static let lightGrey = UIColor(red: 170/255, green: 232/256, blue: 237/256, alpha: 1)
+    static let extraLightGrey = UIColor(red: 225/255, green: 184/256, blue: 194/256, alpha: 1)
+    static let extraExtraLightGrey = UIColor(red: 245/255, green: 248/256, blue: 250/256, alpha: 1)
+    static let white = UIColor.white
 }
 

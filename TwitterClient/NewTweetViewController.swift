@@ -10,9 +10,13 @@ import UIKit
 
 class NewTweetViewController: UIViewController {
 
+    @IBOutlet weak var characterCountLabel: UILabel!
+    @IBOutlet weak var actionView: UIView!
+    @IBOutlet weak var actionViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var tweetButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var userImage: UIImageView!
     
     var success : ((Tweet)->())?
     var created : ((Tweet)->())?
@@ -24,9 +28,30 @@ class NewTweetViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        tweetButton.layer.cornerRadius = 10;
+        tweetButton.backgroundColor = TwitterColor.blue
+        tweetButton.tintColor = TwitterColor.white
+        tweetButton.setTitleColor(TwitterColor.white, for: .normal)
+        
+        actionView.backgroundColor = TwitterColor.extraExtraLightGrey
+        characterCountLabel.textColor = TwitterColor.extraLightGrey
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        
         if let replyTo = self.replyTo {
             textView.text = "@\(replyTo.user.screenName)"
         }
+        
+        User.getCurrentUser { (user:User) in
+            self.userImage.setImageWith(user.profileImageUrl)
+        }
+        
+        self.updateCount()
+        
+        textView.delegate = self
+        textView.becomeFirstResponder()
+        
     }
     
     init(replyTo: Tweet?) {
@@ -70,5 +95,40 @@ class NewTweetViewController: UIViewController {
         dismiss(animated: true, completion: nil)
         
     }
+    
+    
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: 1, animations: {
+                self.actionViewBottomConstraint.constant = keyboardSize.height
+                self.view.layoutIfNeeded()
+            })
+        }
+        
+    }
+    
 
+    
+    func updateCount() {
+        let count = 140 - textView.text.characters.count
+        self.characterCountLabel.text = "\(count)"
+        if(count < 0){
+            self.characterCountLabel.textColor = TwitterColor.red
+        }else{
+            self.characterCountLabel.textColor = TwitterColor.extraLightGrey
+        }
+    }
+    
+    
+
+}
+
+extension NewTweetViewController : UITextViewDelegate{
+    func textViewDidChange(_ textView: UITextView) {
+        self.updateCount()
+    }
 }

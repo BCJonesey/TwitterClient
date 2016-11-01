@@ -12,15 +12,22 @@ class Tweet: NSObject {
     
     var text:String
     var user:User
-    var favorited:Bool = false
+    var favorited:Bool
+    var favoriteCount : NSNumber = 0
     var id:String
     var createdAt : Date?
+    var retweetCount : NSNumber = 0
+    var retweeted : Bool
     
     init(_ data:NSDictionary) {
+        print("ben jones\(data.value(forKey: "favorited") as! Bool)")
         self.text = data.value(forKey: "text") as! String
         self.user = User(data.value(forKey: "user") as! NSDictionary)
         self.favorited = data.value(forKey: "favorited") as! Bool
+        self.favoriteCount = (data.value(forKey: "favorite_count") as? NSNumber) ?? 0
         self.id = data.value(forKey: "id_str") as! String
+        self.retweetCount = (data.value(forKey: "retweet_count") as? NSNumber) ?? 0
+        self.retweeted = data.value(forKey: "retweeted") as! Bool
 
         let dateFormatter = DateFormatter()
         // "Tue Aug 28 21:16:23 +0000 2012"
@@ -28,6 +35,7 @@ class Tweet: NSObject {
         dateFormatter.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
         self.createdAt = dateFormatter.date(from: data.value(forKey: "created_at")
  as! String)
+        
         
        
     }
@@ -42,11 +50,34 @@ class Tweet: NSObject {
         return ""
     }
     
-    func favorite(success:  @escaping () -> (), failure: @escaping () -> ()) {
-        TwitterAPIManager.shared.favorite(tweet: self, success: success, failure: failure)
+    func destroyFavorite() {
+        TwitterAPIManager.shared.destroyFavorite(tweet: self)
+        if(favorited){
+            favorited = false
+            favoriteCount = NSNumber(value: favoriteCount.intValue - 1)
+            
+        }
     }
-    func retweet(success:  @escaping () -> (), failure: @escaping () -> ()) {
-        TwitterAPIManager.shared.retweet(tweet: self, success: success, failure: failure)
+    func favorite() {
+        TwitterAPIManager.shared.favorite(tweet: self)
+        if(!favorited){
+            favorited = true
+            favoriteCount = NSNumber(value: favoriteCount.intValue + 1)
+        }
+    }
+    func retweet() {
+        TwitterAPIManager.shared.retweet(tweet: self)
+        if(!favorited){
+            retweeted = true
+            retweetCount = NSNumber(value: retweetCount.intValue + 1)
+        }
+    }
+    func destroyRetweet() {
+        TwitterAPIManager.shared.destroyRetweet(tweet: self)
+        if(favorited){
+            retweeted = false
+            retweetCount = NSNumber(value: retweetCount.intValue - 1)
+        }
     }
 
 }

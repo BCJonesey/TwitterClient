@@ -25,12 +25,15 @@ class User: NSObject {
         self.profileImageUrl = URL(string: (data.value(forKey: "profile_image_url_https") as! String))!
     }
     
-    class func getCurrentUser(completion: (User?)->()){
+    class func getCurrentUser(success: ((User)->())?){
         // try to get the User from backup
         if let user = User.currentUser {
-            completion(user)
+            success?(user)
         } else {
-            // if we dont have it locally, get it from the server
+            TwitterAPIManager.shared.getCurrentUser(success: { (user:User) in
+                currentUser = user
+                success?(user)
+            })
             
         }
         
@@ -38,22 +41,32 @@ class User: NSObject {
     
     private class var currentUser : User?{
         get{
-            if let data = UserDefaults.standard.object(forKey: "currentUserData") as? NSDictionary{
-                return User(data)
-            }else{
-               return nil
+            if let data = UserDefaults.standard.object(forKey: "currentUserData") as? Data {
+                
+                
+                if let dict = try? JSONSerialization.jsonObject(with: data, options:[]) as! NSDictionary{
+                    return User(dict)
+                }else{
+                    return nil
+                }
             }
+            return nil
         }
         set(user){
             if let user = user {
-                UserDefaults.standard.set(user.originalDictionary, forKey: "currentUserData")
+                if let data = try? JSONSerialization.data(withJSONObject: user.originalDictionary, options: []) {
+                    UserDefaults.standard.set(data, forKey: "currentUserData")
+                }
             } else {
-                UserDefaults.standard.set(nil, forKey: "currentUserData")
+                UserDefaults.standard.removeObject(forKey: "currentUserData")
             }
             UserDefaults.standard.synchronize()
         }
     }
 }
+
+
+
 /*
  {
  "id": 2244994945,

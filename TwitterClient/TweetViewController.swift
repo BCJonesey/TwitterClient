@@ -10,22 +10,51 @@ import UIKit
 
 class TweetViewController: UIViewController {
 
-    @IBOutlet weak var likeButton: AnimatedUIButton!
+    @IBOutlet weak var replyButton: AnimatedUIButton!
+    @IBOutlet weak var retweetButton: AnimatedUIButton!
+    @IBOutlet weak var favoriteButton: AnimatedUIButton!
     var tweet : Tweet?
     
     
+    @IBOutlet weak var favNumber: UILabel!
+    @IBOutlet weak var retweetNumber: UILabel!
+    @IBOutlet weak var userScreenName: UILabel!
+    @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var tweetText: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
-        likeButton.imageColorOn = TwitterColor.redColor
-        likeButton.addTarget(self, action: #selector(likeButtonPressed(sender:)), for: .touchUpInside)
-        likeButton.isSelected = tweet?.favorited ?? false
+        favoriteButton.imageColorOn = TwitterColor.red
+        favoriteButton.addTarget(self, action: #selector(likeButtonPressed(sender:)), for: .touchUpInside)
+        favoriteButton.isSelected = tweet?.favorited ?? false
+        
+        
+        self.userName.text = self.tweet?.user.name
+        self.userScreenName.text = "@\(self.tweet?.user.screenName ?? "")"
+        DispatchQueue.main.async {
+            self.userImage.setImageWith(self.tweet!.user.profileImageUrl)
+            
+            self.userImage.layer.cornerRadius = 5.0
+            self.userImage.clipsToBounds = true
+        }
+        self.tweetText.text = self.tweet?.text
+        
+        
+        
         
     }
 
+    override func viewDidLayoutSubviews() {
+
+        self.replyButton.updateLayers()
+        self.retweetButton.updateLayers()
+        self.favoriteButton.updateLayers()
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -49,11 +78,7 @@ class TweetViewController: UIViewController {
         } else {
             // select with animation
             sender.select()
-            tweet?.favorite(success: {
-                print("faved")
-                }, failure: {
-                    print("failed")
-            })
+            tweet?.favorite()
         }
     }
     

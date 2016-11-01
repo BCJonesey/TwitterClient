@@ -107,9 +107,14 @@ class AnimatedUIButton: UIButton {
         addTargets()
     }
     
+    func updateLayers() {
+        createLayers(image: self.image)
+    }
+    
     private func createLayers(image: UIImage!) {
+
         self.layer.sublayers = nil
-        
+ 
         let imageFrame = CGRect(x: frame.size.width / 2 - frame.size.width / 4, y: frame.size.height / 2 - frame.size.height / 4, width: frame.size.width / 2, height: frame.size.height / 2)
         let imgCenterPoint = CGPoint(x: imageFrame.midX, y: imageFrame.midY)
         let lineFrame = CGRect(x: imageFrame.origin.x - imageFrame.width / 4, y: imageFrame.origin.y - imageFrame.height / 4 , width: imageFrame.width * 1.5, height: imageFrame.height * 1.5)
@@ -399,4 +404,6 @@ class AnimatedUIButton: UIButton {
         lines[3].removeAllAnimations()
         lines[4].removeAllAnimations()
     }
+    
+    
 }

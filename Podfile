@@ -6,9 +6,8 @@ target 'TwitterClient' do
   use_frameworks!
 
   # Pods for TwitterClient
-  pod 'Alamofire'
+  pod 'AFNetworking'
   pod 'BDBOAuth1Manager'
-  pod 'AlamofireImage'
 
   target 'TwitterClientTests' do
     inherit! :search_paths

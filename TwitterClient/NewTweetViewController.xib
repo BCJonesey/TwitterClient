@@ -3,14 +3,19 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewTweetViewController" customModule="TwitterClient" customModuleProvider="target">
             <connections>
+                <outlet property="actionView" destination="q0d-NH-Wtl" id="5jt-Tg-AkM"/>
+                <outlet property="actionViewBottomConstraint" destination="BKA-9M-BeN" id="is7-xR-hCV"/>
+                <outlet property="characterCountLabel" destination="qsW-yx-5MB" id="xLu-3Q-0nG"/>
                 <outlet property="closeButton" destination="ssc-8J-4qO" id="N7m-hA-3zt"/>
                 <outlet property="textView" destination="u3E-U0-GAF" id="Ut3-YT-fLC"/>
                 <outlet property="tweetButton" destination="sHh-0q-aGt" id="Gck-JW-Jyf"/>
+                <outlet property="userImage" destination="nf6-GR-v9u" id="CXe-m9-EMp"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -19,39 +24,71 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dAB-XD-mLG">
-                    <frame key="frameInset" minY="20" width="375" height="52"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ssc-8J-4qO">
-                            <frame key="frameInset" minX="303" minY="14" width="37" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="close"/>
-                            <connections>
-                                <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="Na6-Kc-gIv"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sHh-0q-aGt">
-                            <frame key="frameInset" minX="95" minY="14" width="39" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="tweet"/>
-                            <connections>
-                                <action selector="tweetButtonPressed:" destination="-1" eventType="touchUpInside" id="bTw-bP-NMa"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </view>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="u3E-U0-GAF">
-                    <frame key="frameInset" minX="16" minY="171" width="343" height="128"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ssc-8J-4qO">
+                    <state key="normal" title="close"/>
+                    <connections>
+                        <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="Na6-Kc-gIv"/>
+                    </connections>
+                </button>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="u3E-U0-GAF">
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q0d-NH-Wtl" userLabel="Actions View">
+                    <subviews>
+                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sHh-0q-aGt">
+                            <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="70" id="u3q-OK-WDd"/>
+                                <constraint firstAttribute="height" constant="32" id="wWB-vA-xke"/>
+                            </constraints>
+                            <state key="normal" title="Tweet">
+                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" red="0.43998073862666426" green="0.43371510023136728" blue="0.81214308375634514" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="tweetButtonPressed:" destination="-1" eventType="touchUpInside" id="bTw-bP-NMa"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="140" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qsW-yx-5MB">
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="qsW-yx-5MB" firstAttribute="centerY" secondItem="sHh-0q-aGt" secondAttribute="centerY" id="2j6-fv-Zih"/>
+                        <constraint firstItem="sHh-0q-aGt" firstAttribute="leading" secondItem="qsW-yx-5MB" secondAttribute="trailing" constant="8" id="X3u-fS-tp2"/>
+                        <constraint firstAttribute="trailing" secondItem="sHh-0q-aGt" secondAttribute="trailing" constant="8" id="ili-wt-wEd"/>
+                        <constraint firstItem="sHh-0q-aGt" firstAttribute="centerY" secondItem="q0d-NH-Wtl" secondAttribute="centerY" id="jh0-4b-oLi"/>
+                        <constraint firstAttribute="height" constant="40" id="kMa-ZJ-D2o"/>
+                    </constraints>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nf6-GR-v9u">
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="nf6-GR-v9u" secondAttribute="height" multiplier="1:1" id="CrT-qx-mSS"/>
+                        <constraint firstAttribute="height" constant="52" id="qxe-ch-zx0"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="q0d-NH-Wtl" secondAttribute="bottom" identifier="distanceToBottom" id="BKA-9M-BeN"/>
+                <constraint firstItem="u3E-U0-GAF" firstAttribute="top" secondItem="nf6-GR-v9u" secondAttribute="bottom" constant="8" id="H2g-2P-p9S"/>
+                <constraint firstItem="u3E-U0-GAF" firstAttribute="leading" secondItem="nf6-GR-v9u" secondAttribute="trailing" constant="-52" id="S3T-Qx-IDm"/>
+                <constraint firstAttribute="trailing" secondItem="u3E-U0-GAF" secondAttribute="trailing" constant="16" id="TlT-ji-cI2"/>
+                <constraint firstItem="ssc-8J-4qO" firstAttribute="centerY" secondItem="nf6-GR-v9u" secondAttribute="centerY" id="Y2B-dv-Ilo"/>
+                <constraint firstAttribute="trailing" secondItem="q0d-NH-Wtl" secondAttribute="trailing" id="aXQ-wx-kTp"/>
+                <constraint firstItem="u3E-U0-GAF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="bfk-Ap-uDU"/>
+                <constraint firstItem="q0d-NH-Wtl" firstAttribute="top" secondItem="u3E-U0-GAF" secondAttribute="bottom" id="n5h-pc-x8Z"/>
+                <constraint firstAttribute="trailing" secondItem="ssc-8J-4qO" secondAttribute="trailing" constant="16" id="ngq-zo-KJl"/>
+                <constraint firstItem="q0d-NH-Wtl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ppF-hp-vuA"/>
+                <constraint firstItem="nf6-GR-v9u" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="qCG-wP-BVh"/>
+                <constraint firstItem="nf6-GR-v9u" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="ydQ-QI-wfi"/>
+            </constraints>
             <point key="canvasLocation" x="33.5" y="131.5"/>
         </view>
     </objects>
