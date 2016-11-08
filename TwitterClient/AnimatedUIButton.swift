@@ -21,7 +21,7 @@ class AnimatedUIButton: UIButton {
     private var imageShape: CAShapeLayer!
     @IBInspectable public var image: UIImage! {
         didSet {
-            createLayers(image: image)
+            self.layoutSubviews()
         }
     }
     @IBInspectable public var imageColorOn: UIColor! = UIColor(red: 255/255, green: 172/255, blue: 51/255, alpha: 1.0) {
@@ -78,11 +78,12 @@ class AnimatedUIButton: UIButton {
         didSet {
             if (isSelected != oldValue) {
                 if isSelected {
-                    imageShape.fillColor = imageColorOn.cgColor
+                    //imageShape.fillColor = imageColorOn.cgColor
                 } else {
                     deselect()
                 }
             }
+            
         }
     }
     
@@ -97,21 +98,22 @@ class AnimatedUIButton: UIButton {
     public init(frame: CGRect, image: UIImage!) {
         super.init(frame: frame)
         self.image = image
-        createLayers(image: image)
         addTargets()
     }
     
     public required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
-        createLayers(image: UIImage())
+        self.image = UIImage()
         addTargets()
     }
     
-    func updateLayers() {
-        createLayers(image: self.image)
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        //createLayers()
     }
     
-    private func createLayers(image: UIImage!) {
+    private func createLayers() {
 
         self.layer.sublayers = nil
  
@@ -373,36 +375,38 @@ class AnimatedUIButton: UIButton {
     
     public func select() {
         isSelected = true
-        imageShape.fillColor = imageColorOn.cgColor
-        
-        CATransaction.begin()
-        
-        circleShape.add(circleTransform, forKey: "transform")
-        circleMask.add(circleMaskTransform, forKey: "transform")
-        imageShape.add(imageTransform, forKey: "transform")
-        
-        for i in 0 ..< 5 {
-            lines[i].add(lineStrokeStart, forKey: "strokeStart")
-            lines[i].add(lineStrokeEnd, forKey: "strokeEnd")
-            lines[i].add(lineOpacity, forKey: "opacity")
-        }
-        
-        CATransaction.commit()
+//        return
+//        imageShape.fillColor = imageColorOn.cgColor
+//        
+//        CATransaction.begin()
+//        
+//        circleShape.add(circleTransform, forKey: "transform")
+//        circleMask.add(circleMaskTransform, forKey: "transform")
+//        imageShape.add(imageTransform, forKey: "transform")
+//        
+//        for i in 0 ..< 5 {
+//            lines[i].add(lineStrokeStart, forKey: "strokeStart")
+//            lines[i].add(lineStrokeEnd, forKey: "strokeEnd")
+//            lines[i].add(lineOpacity, forKey: "opacity")
+//        }
+//        
+//        CATransaction.commit()
     }
     
     public func deselect() {
         isSelected = false
-        imageShape.fillColor = imageColorOff.cgColor
-        
-        // remove all animations
-        circleShape.removeAllAnimations()
-        circleMask.removeAllAnimations()
-        imageShape.removeAllAnimations()
-        lines[0].removeAllAnimations()
-        lines[1].removeAllAnimations()
-        lines[2].removeAllAnimations()
-        lines[3].removeAllAnimations()
-        lines[4].removeAllAnimations()
+//        return
+//        imageShape.fillColor = imageColorOff.cgColor
+//        
+//        // remove all animations
+//        circleShape.removeAllAnimations()
+//        circleMask.removeAllAnimations()
+//        imageShape.removeAllAnimations()
+//        lines[0].removeAllAnimations()
+//        lines[1].removeAllAnimations()
+//        lines[2].removeAllAnimations()
+//        lines[3].removeAllAnimations()
+//        lines[4].removeAllAnimations()
     }
     
     

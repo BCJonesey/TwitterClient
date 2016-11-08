@@ -1,30 +1,49 @@
 //
-//  TweetsViewController.swift
+//  ProfileViewController.swift
 //  TwitterClient
 //
-//  Created by Ben Jones on 10/29/16.
+//  Created by Ben Jones on 11/7/16.
 //  Copyright © 2016 Ben Jones. All rights reserved.
 //
 
 import UIKit
+import AFNetworking
 
-class TweetsViewController: UIViewController {
-    
-    var tweets:[Tweet] = []
+class ProfileViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    
+    @IBOutlet weak var verifiedUserBadge: UIImageView!
+    @IBOutlet weak var followingCount: UILabel!
+    @IBOutlet weak var userLocation: UILabel!
+    @IBOutlet weak var followerCount: UILabel!
+    @IBOutlet weak var userScreenName: UILabel!
+    @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var userHeaderImage: UIImageView!
+    @IBOutlet weak var userImage: UIImageView!
+    var user:User?{
+        didSet{
+            if let user = self.user {
+                view.layoutIfNeeded()
+                userImage.setImageWith(user.profileImageUrl)
+                userHeaderImage.setImageWith(user.profileBannerUrl)
+                userName.text = user.name
+                userScreenName.text = "@\(user.screenName)"
+                followerCount.text = "\(user.followerCount)"
+                followingCount.text = "\(user.friendCount)"
+            }
+        }
+    }
+    var tweets:[Tweet] = []
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        //#1DA1F2
+        if(user == nil){
+            User.getCurrentUser(success: { (currentUser:User) in
+                self.user = currentUser
+            })
+        }
         
-        self.navigationController?.navigationBar.tintColor = TwitterColor.blue
-        self.navigationController?.navigationBar.barTintColor = TwitterColor.white
-        self.navigationController?.navigationBar.isTranslucent = false
-        
-        self.navigationItem.titleView = UIImageView(image: #imageLiteral(resourceName: "twitterLogo"))
         
         
         tableView.delegate = self
@@ -34,14 +53,7 @@ class TweetsViewController: UIViewController {
         
         tableView.register(UINib(nibName: "TweetTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: "TweetTableViewCell")
         
-        // Initialize a UIRefreshControl
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(getData(refreshControl:)), for: UIControlEvents.valueChanged)
-        tableView.insertSubview(refreshControl, at: 0)
-        
-        TwitterAPIManager.shared.login(controller: self,success: {
-            self.getData(refreshControl: nil)
-        })
+        getData(refreshControl: nil)
         
     }
 
@@ -50,48 +62,46 @@ class TweetsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
     func getData(refreshControl: UIRefreshControl?){
-        TwitterAPIManager.shared.getHomeTimeline(success: { (tweets:[Tweet]) in
+        TwitterAPIManager.shared.getTimeline(user:self.user,success: { (tweets:[Tweet]) in
             self.tweets = tweets
             self.tableView.reloadData()
-                
+            
             // Tell the refreshControl to stop spinning
             refreshControl?.endRefreshing()
             
         })
     }
 
-    @IBAction func logOut(_ sender: AnyObject) {
-        TwitterAPIManager.shared.logOut()
-        TwitterAPIManager.shared.login(controller: self,success: {
-            self.getData(refreshControl: nil)
-        })
-    }
-    
-    @IBAction func newTweetButtonPressed(_ sender: AnyObject) {
-        let newTweetViewController = NewTweetViewController(replyTo: nil)
-        self.present(newTweetViewController, animated: true, completion: nil)
-    }
+    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        
-        if let tweet = sender as? Tweet {
-            if let tweetController = segue.destination as? TweetViewController {
-                tweetController.tweet = tweet
-                
-            }
-            
-        }
     }
- 
-
+    */
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.backgroundColor = TwitterColor.white
+        self.navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.backgroundColor = UIColor.clear
+        self.navigationController?.view.backgroundColor = UIColor.clear
+        
+        
+    }
 }
 
-extension TweetsViewController: UITableViewDelegate, UITableViewDataSource {
+
+extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tweets.count
@@ -109,12 +119,19 @@ extension TweetsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        performSegue(withIdentifier: "ShowTweet", sender: tweets[indexPath.row])
+       
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        
+        let tweetViewController = storyboard.instantiateViewController(withIdentifier: "TweetViewController") as! TweetViewController
+        tweetViewController.tweet = tweets[indexPath.row]
+        
+        self.navigationController?.pushViewController(tweetViewController, animated: true)
     }
     
 }
 
-extension TweetsViewController: TweetTableViewCellDelegate{
+extension ProfileViewController: TweetTableViewCellDelegate{
     func tweetTableViewCellDidTriggerReply(cell: TweetTableViewCell) {
         let newTweetViewController = NewTweetViewController(replyTo: cell.tweet)
         self.present(newTweetViewController, animated: true, completion: nil)
@@ -127,8 +144,6 @@ extension TweetsViewController: TweetTableViewCellDelegate{
         profileViewController.user = cell.tweet?.user
         
         self.navigationController?.pushViewController(profileViewController, animated: true)
-
+        
     }
 }
-
-

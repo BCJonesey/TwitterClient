@@ -14,6 +14,9 @@ class User: NSObject {
     var screenName : String
     var originalDictionary : NSDictionary
     var profileImageUrl : URL
+    var profileBannerUrl: URL
+    var followerCount : NSNumber
+    var friendCount : NSNumber
     
     
     
@@ -22,7 +25,13 @@ class User: NSObject {
         self.name = data.value(forKey: "name") as! String
         self.id = data.value(forKey: "id_str") as! String
         self.screenName = data.value(forKey: "screen_name") as! String
-        self.profileImageUrl = URL(string: (data.value(forKey: "profile_image_url_https") as! String))!
+        self.profileImageUrl = URL(string: (data.value(forKey: "profile_image_url_https") as! String).replacingOccurrences(of: "_normal", with: "_bigger"))!
+        self.profileBannerUrl = URL(string: "\((data.value(forKey: "profile_banner_url") as? String) ?? "https://pbs.twimg.com/profile_banners/6253282/1431474710")/ipad_retina")!
+        self.followerCount = data.value(forKey: "followers_count") as! NSNumber
+        self.friendCount = data.value(forKey: "friends_count") as! NSNumber
+        
+
+
     }
     
     class func getCurrentUser(success: ((User)->())?){

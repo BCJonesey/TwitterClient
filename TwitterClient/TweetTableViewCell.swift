@@ -11,6 +11,7 @@ import AFNetworking
 
 protocol TweetTableViewCellDelegate: class {
     func tweetTableViewCellDidTriggerReply(cell: TweetTableViewCell)
+    func tweetTableViewCellDidTriggerProfileView(cell: TweetTableViewCell)
 }
 
 class TweetTableViewCell: UITableViewCell {
@@ -25,7 +26,11 @@ class TweetTableViewCell: UITableViewCell {
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userScreenName: UILabel!
     @IBOutlet weak var tweetBody: UILabel!
-    var tweet : Tweet?
+    var tweet : Tweet?{
+        didSet{
+            repaint()
+        }
+    }
     weak var delegate : TweetTableViewCellDelegate?
     
     override func awakeFromNib() {
@@ -36,7 +41,9 @@ class TweetTableViewCell: UITableViewCell {
         replyButton.addTarget(self, action: #selector(replyButtonPressed(sender:)), for: .touchUpInside)
         retweetButton.addTarget(self, action: #selector(retweetButtonPressed(sender:)), for: .touchUpInside)
         retweetButton.imageColorOn = TwitterColor.green
-        
+        userImage.isUserInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userImagePressed))
+        userImage.addGestureRecognizer(gestureRecognizer)
                 
         
     }
@@ -81,6 +88,10 @@ class TweetTableViewCell: UITableViewCell {
         delegate?.tweetTableViewCellDidTriggerReply(cell: self)
     }
     
+    func userImagePressed() {
+        delegate?.tweetTableViewCellDidTriggerProfileView(cell: self)
+    }
+    
     func repaint() {
         if let tweet = self.tweet{
             
@@ -106,11 +117,6 @@ class TweetTableViewCell: UITableViewCell {
             print("ben fav: \(tweet.retweeted)")
             self.retweetButton.isSelected = tweet.retweeted
             
-            self.layoutIfNeeded()
-            self.updateConstraintsIfNeeded()
-            self.replyButton.updateLayers()
-            self.retweetButton.updateLayers()
-            self.favoriteButton.updateLayers()
             
             
         }

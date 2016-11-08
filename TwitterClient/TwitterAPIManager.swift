@@ -20,8 +20,13 @@ class TwitterAPIManager: BDBOAuth1SessionManager {
 
 // Twitter REST API metheods
 extension TwitterAPIManager {
-    func getTimline(success:@escaping ([Tweet]) -> ()) {
-        self.get("1.1/statuses/home_timeline.json", parameters: nil, progress: nil, success: { (task:URLSessionDataTask?, response:Any?) in
+    func getTimeline(user:User?,success:@escaping ([Tweet]) -> ()) {
+        var parameters:[String:String] = [:]
+        if let user = user {
+            parameters["user_id"] = user.id
+        }
+        
+        self.get("1.1/statuses/user_timeline.json", parameters: parameters, progress: nil, success: { (task:URLSessionDataTask?, response:Any?) in
             let data = response as! [NSDictionary]
             success(Tweet.buildTweets(data))
             
@@ -30,7 +35,18 @@ extension TwitterAPIManager {
         }
     }
     
+    func getHomeTimeline(success:@escaping ([Tweet]) -> ()) {
+        
+        self.get("1.1/statuses/home_timeline.json", parameters: nil, progress: nil, success: { (task:URLSessionDataTask?, response:Any?) in
+            let data = response as! [NSDictionary]
+            success(Tweet.buildTweets(data))
+            
+        }) { (task:URLSessionDataTask?, error:Error) in
+            print(error.localizedDescription)
+        }
+    }
     func favorite(tweet: Tweet) {
+        
         self.post("1.1/favorites/create.json?id=\(tweet.id)", parameters: nil, progress: nil, success: { (task:URLSessionDataTask, response: Any?) in
             let data = response as! NSDictionary
             print("fav created")

@@ -20,6 +20,9 @@
 		B528AB671DC69B5A00525F28 /* AnimatedUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B528AB661DC69B5A00525F28 /* AnimatedUIButton.swift */; };
 		B528AB6C1DC6BC4D00525F28 /* NewTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B528AB6A1DC6BC4D00525F28 /* NewTweetViewController.swift */; };
 		B528AB6D1DC6BC4D00525F28 /* NewTweetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B528AB6B1DC6BC4D00525F28 /* NewTweetViewController.xib */; };
+		B5623F2D1DCFCBA00046E730 /* HamburgerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5623F2C1DCFCBA00046E730 /* HamburgerViewController.swift */; };
+		B5623F2F1DCFD41A0046E730 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5623F2E1DCFD41A0046E730 /* MenuViewController.swift */; };
+		B5623F311DD109C00046E730 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5623F301DD109C00046E730 /* ProfileViewController.swift */; };
 		B5CE071B1DC3856E008F8154 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CE071A1DC3856E008F8154 /* AppDelegate.swift */; };
 		B5CE07201DC3856E008F8154 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5CE071E1DC3856E008F8154 /* Main.storyboard */; };
 		B5CE07221DC3856E008F8154 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5CE07211DC3856E008F8154 /* Assets.xcassets */; };
@@ -67,6 +70,9 @@
 		B528AB661DC69B5A00525F28 /* AnimatedUIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedUIButton.swift; sourceTree = "<group>"; };
 		B528AB6A1DC6BC4D00525F28 /* NewTweetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTweetViewController.swift; sourceTree = "<group>"; };
 		B528AB6B1DC6BC4D00525F28 /* NewTweetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewTweetViewController.xib; sourceTree = "<group>"; };
+		B5623F2C1DCFCBA00046E730 /* HamburgerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerViewController.swift; sourceTree = "<group>"; };
+		B5623F2E1DCFD41A0046E730 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		B5623F301DD109C00046E730 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B5CE07171DC3856E008F8154 /* TwitterClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5CE071A1DC3856E008F8154 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5CE071F1DC3856E008F8154 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -141,6 +147,9 @@
 				B528AB641DC6988900525F28 /* TweetViewController.swift */,
 				B528AB6A1DC6BC4D00525F28 /* NewTweetViewController.swift */,
 				B528AB6B1DC6BC4D00525F28 /* NewTweetViewController.xib */,
+				B5623F2C1DCFCBA00046E730 /* HamburgerViewController.swift */,
+				B5623F2E1DCFD41A0046E730 /* MenuViewController.swift */,
+				B5623F301DD109C00046E730 /* ProfileViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -523,8 +532,11 @@
 				B528AB651DC6988900525F28 /* TweetViewController.swift in Sources */,
 				B51839021DC52DFB00D3884F /* TwitterAPIManager.swift in Sources */,
 				B5CE071B1DC3856E008F8154 /* AppDelegate.swift in Sources */,
+				B5623F2F1DCFD41A0046E730 /* MenuViewController.swift in Sources */,
 				B528AB671DC69B5A00525F28 /* AnimatedUIButton.swift in Sources */,
 				B501AF7F1DC59D3800778EAC /* TweetTableViewCell.swift in Sources */,
+				B5623F311DD109C00046E730 /* ProfileViewController.swift in Sources */,
+				B5623F2D1DCFCBA00046E730 /* HamburgerViewController.swift in Sources */,
 				B528AB6C1DC6BC4D00525F28 /* NewTweetViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

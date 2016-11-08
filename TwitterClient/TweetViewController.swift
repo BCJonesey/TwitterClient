@@ -40,29 +40,23 @@ class TweetViewController: UIViewController {
         
         self.userName.text = self.tweet?.user.name
         self.userScreenName.text = "@\(self.tweet?.user.screenName ?? "")"
-        DispatchQueue.main.async {
-            self.userImage.setImageWith(self.tweet!.user.profileImageUrl)
+        
+        self.userImage.setImageWith(self.tweet!.user.profileImageUrl)
             
-            self.userImage.layer.cornerRadius = 5.0
-            self.userImage.clipsToBounds = true
+        self.userImage.layer.cornerRadius = 5.0
+        self.userImage.clipsToBounds = true
+        userImage.isUserInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userImagePressed))
+        userImage.addGestureRecognizer(gestureRecognizer)
             
-        }
+        
         self.tweetText.text = self.tweet?.text
         retweetNumber.text = "\((tweet?.retweetCount)!)"
         favNumber.text = "\((tweet?.favoriteCount)!)"
         
     }
 
-    override func viewDidLayoutSubviews() {
-
-       
-        
-    }
-    override func viewDidAppear(_ animated: Bool) {
-        self.replyButton.updateLayers()
-        self.retweetButton.updateLayers()
-        self.favoriteButton.updateLayers()
-    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -113,5 +107,16 @@ class TweetViewController: UIViewController {
     @IBAction func retweetButtonPressed(_ sender: AnyObject) {
         
     }
+    
+    func userImagePressed(){
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        
+        let profileViewController = storyboard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+        profileViewController.user = tweet?.user
+        
+        self.navigationController?.pushViewController(profileViewController, animated: true)
 
+    }
+    
 }
