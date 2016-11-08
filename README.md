@@ -20,6 +20,8 @@ The following **required** functionality is completed:
 The following **additional** features are implemented:
 
 - [x] See list of likes from user profile page
+- [x] Profile Page
+   - [x] fancy scrolling of profile view
 
 
 
@@ -28,7 +30,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='/twitterClient.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='/twitter3.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

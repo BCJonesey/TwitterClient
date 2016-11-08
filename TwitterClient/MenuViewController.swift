@@ -17,6 +17,7 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     let menuItems = ["Time Line", "Profile", "Mentions"]
     var contentViewControllers : [UIViewController] = []
+    let menuImages = [#imageLiteral(resourceName: "timeline"), #imageLiteral(resourceName: "profile"), #imageLiteral(resourceName: "mentions")]
     
     
     override func viewDidLoad() {
@@ -70,7 +71,7 @@ extension MenuViewController : UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath)
         cell.textLabel?.text = menuItems[indexPath.row]
         
-        
+        cell.imageView?.image = menuImages[indexPath.row]
         return cell
     }
     

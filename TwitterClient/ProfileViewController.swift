@@ -11,6 +11,11 @@ import AFNetworking
 
 class ProfileViewController: UIViewController {
 
+    
+    @IBOutlet weak var topOfSegmentedControllMinDistance: NSLayoutConstraint!
+    @IBOutlet weak var topOfImageConstraint: NSLayoutConstraint!
+    var initialTopOfImageConstraint : CGFloat = 5.0
+    var initialBottomProfiledistance : CGFloat = 75.0
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var verifiedUserBadge: UIImageView!
     @IBOutlet weak var followingCount: UILabel!
@@ -72,7 +77,11 @@ class ProfileViewController: UIViewController {
         following.textColor = TwitterColor.darkGrey
         
         
-    
+        
+        initialTopOfImageConstraint = topOfImageConstraint.constant
+        
+        
+        initialBottomProfiledistance = userImage.frame.maxY - userHeaderImage.frame.maxY
         
     }
 
@@ -99,6 +108,9 @@ class ProfileViewController: UIViewController {
         
     }
     
+    @IBAction func userDidPanTableView(_ sender: UIPanGestureRecognizer) {
+        print("pan")
+    }
     @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
         getData(refreshControl: nil)
     }
@@ -157,6 +169,23 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(tweetViewController, animated: true)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        
+        
+        
+        
+        userImage.alpha = ((userImage.frame.maxY - userHeaderImage.frame.maxY)/initialBottomProfiledistance)
+        
+        
+        if ((scrollView.contentOffset.y > 0)&&(segmentedControl.frame.minY - userHeaderImage.frame.maxY) > topOfSegmentedControllMinDistance.constant) {
+            topOfImageConstraint.constant = initialTopOfImageConstraint - scrollView.contentOffset.y
+            
+        } else if ((scrollView.contentOffset.y < 0)&&(topOfImageConstraint.constant < initialTopOfImageConstraint)) {
+            topOfImageConstraint.constant = topOfImageConstraint.constant - scrollView.contentOffset.y
+            
+        }
+    }
 }
 
 extension ProfileViewController: TweetTableViewCellDelegate{
