@@ -18,7 +18,10 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var followerCount: UILabel!
     @IBOutlet weak var userScreenName: UILabel!
     @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var followers: UILabel!
     @IBOutlet weak var userHeaderImage: UIImageView!
+    @IBOutlet weak var following: UILabel!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var userImage: UIImageView!
     var user:User?{
         didSet{
@@ -30,6 +33,8 @@ class ProfileViewController: UIViewController {
                 userScreenName.text = "@\(user.screenName)"
                 followerCount.text = "\(user.followerCount)"
                 followingCount.text = "\(user.friendCount)"
+                userLocation.text = user.location
+                getData(refreshControl: nil)
             }
         }
     }
@@ -53,7 +58,21 @@ class ProfileViewController: UIViewController {
         
         tableView.register(UINib(nibName: "TweetTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: "TweetTableViewCell")
         
-        getData(refreshControl: nil)
+        
+        
+        userImage.layer.borderWidth = 4.0
+        userImage.layer.borderColor = TwitterColor.white.cgColor
+        userImage.layer.cornerRadius = 5
+        userImage.clipsToBounds = true
+        
+        segmentedControl.tintColor = TwitterColor.blue
+        userScreenName.textColor = TwitterColor.darkGrey
+        userLocation.textColor = TwitterColor.darkGrey
+        followers.textColor = TwitterColor.darkGrey
+        following.textColor = TwitterColor.darkGrey
+        
+        
+    
         
     }
 
@@ -64,16 +83,25 @@ class ProfileViewController: UIViewController {
     
     
     func getData(refreshControl: UIRefreshControl?){
-        TwitterAPIManager.shared.getTimeline(user:self.user,success: { (tweets:[Tweet]) in
+        let success = { (tweets:[Tweet]) in
             self.tweets = tweets
             self.tableView.reloadData()
-            
+            self.tableView.setContentOffset(CGPoint.zero, animated: false)
             // Tell the refreshControl to stop spinning
             refreshControl?.endRefreshing()
             
-        })
+        }
+        if(segmentedControl.selectedSegmentIndex == 0){
+           TwitterAPIManager.shared.getTimeline(user:self.user,success: success)
+        }else{
+            TwitterAPIManager.shared.getFavoritesList(user: self.user!, success: success)
+        }
+        
     }
-
+    
+    @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
+        getData(refreshControl: nil)
+    }
     /*
     // MARK: - Navigation
 

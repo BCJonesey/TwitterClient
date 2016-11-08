@@ -18,9 +18,9 @@ class TweetTableViewCell: UITableViewCell {
 
     @IBOutlet weak var favoriteCount: UILabel!
     @IBOutlet weak var retweetCount: UILabel!
-    @IBOutlet weak var favoriteButton: AnimatedUIButton!
-    @IBOutlet weak var retweetButton: AnimatedUIButton!
-    @IBOutlet weak var replyButton: AnimatedUIButton!
+    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var retweetButton: UIButton!
+    @IBOutlet weak var replyButton: UIButton!
     @IBOutlet weak var timeText: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userName: UILabel!
@@ -36,11 +36,20 @@ class TweetTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        favoriteButton.imageColorOn = TwitterColor.red
+        
         favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed(sender:)), for: .touchUpInside)
         replyButton.addTarget(self, action: #selector(replyButtonPressed(sender:)), for: .touchUpInside)
         retweetButton.addTarget(self, action: #selector(retweetButtonPressed(sender:)), for: .touchUpInside)
-        retweetButton.imageColorOn = TwitterColor.green
+        
+        
+        favoriteButton.setImage(#imageLiteral(resourceName: "heart").withRenderingMode(.alwaysTemplate), for: .normal)
+        favoriteButton.tintColor = TwitterColor.darkGrey
+        replyButton.setImage(#imageLiteral(resourceName: "reply").withRenderingMode(.alwaysTemplate), for: .normal)
+        replyButton.tintColor = TwitterColor.darkGrey
+        retweetButton.setImage(#imageLiteral(resourceName: "retweet").withRenderingMode(.alwaysTemplate), for: .normal)
+        retweetButton.tintColor = TwitterColor.darkGrey
+        
+        
         userImage.isUserInteractionEnabled = true
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(userImagePressed))
         userImage.addGestureRecognizer(gestureRecognizer)
@@ -56,35 +65,32 @@ class TweetTableViewCell: UITableViewCell {
     
     
     
-    func favoriteButtonPressed(sender: AnimatedUIButton) {
+    func favoriteButtonPressed(sender: UIButton) {
         
-        if sender.isSelected {
-            // deselect
-            sender.deselect()
+        if tweet!.favorited {
             tweet?.destroyFavorite()
+            favoriteButton.tintColor = TwitterColor.darkGrey
         } else {
-            // select with animation
-            sender.select()
             tweet?.favorite()
+            favoriteButton.tintColor = TwitterColor.red
         }
         favoriteCount.text = "\((tweet?.favoriteCount)!)"
     }
     
-    func retweetButtonPressed(sender: AnimatedUIButton) {
+    func retweetButtonPressed(sender: UIButton) {
         
-        if sender.isSelected {
-            // deselect
-            sender.deselect()
+        if tweet!.retweeted {
             tweet?.destroyRetweet()
+            retweetButton.tintColor = TwitterColor.darkGrey
         } else {
-            // select with animation
-            sender.select()
             tweet?.retweet()
+            retweetButton.tintColor = TwitterColor.green
         }
+        retweetButton.tintColor = TwitterColor.green
         retweetCount.text = "\((tweet?.retweetCount)!)"
     }
     
-    func replyButtonPressed(sender: AnimatedUIButton) {
+    func replyButtonPressed(sender: UIButton) {
         delegate?.tweetTableViewCellDidTriggerReply(cell: self)
     }
     
@@ -101,7 +107,7 @@ class TweetTableViewCell: UITableViewCell {
             userImage.setImageWith(tweet.user.profileImageUrl)
             
             
-            
+            self.userScreenName.text = "@\(tweet.user.screenName)"
             self.userImage.layer.cornerRadius = 5.0
             self.userImage.clipsToBounds = true
             
@@ -112,12 +118,15 @@ class TweetTableViewCell: UITableViewCell {
             self.userName.text = tweet.user.name
             self.retweetCount.text = "\(tweet.retweetCount)"
             self.favoriteCount.text = "\(tweet.favoriteCount)"
-            print("ben fav: \(tweet.favorited)")
-            self.favoriteButton.isSelected = tweet.favorited
-            print("ben fav: \(tweet.retweeted)")
-            self.retweetButton.isSelected = tweet.retweeted
+           
             
+            if tweet.favorited{
+                favoriteButton.tintColor = TwitterColor.red
+            }
             
+            if tweet.retweeted{
+                retweetButton.tintColor = TwitterColor.green
+            }
             
         }
         

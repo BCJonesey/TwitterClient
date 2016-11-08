@@ -34,7 +34,27 @@ extension TwitterAPIManager {
             print(error.localizedDescription)
         }
     }
+    // /
+    func getFavoritesList(user: User, success:@escaping ([Tweet]) -> ()) {
+        self.get("1.1/favorites/list.json", parameters: ["user_id":user.id], progress: nil, success: { (task:URLSessionDataTask?, response:Any?) in
+            let data = response as! [NSDictionary]
+            success(Tweet.buildTweets(data))
+            
+        }) { (task:URLSessionDataTask?, error:Error) in
+            print(error.localizedDescription)
+        }
+    }
     
+    func getMentionsList(success:@escaping ([Tweet]) -> ()) {
+        
+        self.get("1.1/statuses/mentions_timeline.json", parameters: nil, progress: nil, success: { (task:URLSessionDataTask?, response:Any?) in
+            let data = response as! [NSDictionary]
+            success(Tweet.buildTweets(data))
+            
+        }) { (task:URLSessionDataTask?, error:Error) in
+            print(error.localizedDescription)
+        }
+    }
     func getHomeTimeline(success:@escaping ([Tweet]) -> ()) {
         
         self.get("1.1/statuses/home_timeline.json", parameters: nil, progress: nil, success: { (task:URLSessionDataTask?, response:Any?) in

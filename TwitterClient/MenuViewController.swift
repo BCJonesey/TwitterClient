@@ -15,7 +15,7 @@ class MenuViewController: UIViewController {
     
     
     @IBOutlet weak var tableView: UITableView!
-    let menuItems = ["Time Line", "Profile"]
+    let menuItems = ["Time Line", "Profile", "Mentions"]
     var contentViewControllers : [UIViewController] = []
     
     
@@ -28,6 +28,10 @@ class MenuViewController: UIViewController {
         contentViewControllers.append(storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController"))
         
         contentViewControllers.append(storyboard.instantiateViewController(withIdentifier: "ProfileNavigationController"))
+        
+        let mentions = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController") as! UINavigationController
+        (mentions.viewControllers[0] as! TweetsViewController).viewType = .mentions
+        contentViewControllers.append(mentions)
         
         
         tableView.dataSource = self

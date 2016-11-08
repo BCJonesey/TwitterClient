@@ -11,6 +11,7 @@ import UIKit
 class TweetsViewController: UIViewController {
     
     var tweets:[Tweet] = []
+    var viewType:TweetsViewType = .timeLine
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -51,14 +52,24 @@ class TweetsViewController: UIViewController {
     }
     
     func getData(refreshControl: UIRefreshControl?){
-        TwitterAPIManager.shared.getHomeTimeline(success: { (tweets:[Tweet]) in
+        let success = { (tweets:[Tweet]) in
             self.tweets = tweets
             self.tableView.reloadData()
-                
+            
             // Tell the refreshControl to stop spinning
             refreshControl?.endRefreshing()
             
-        })
+        }
+        
+        if viewType == TweetsViewType.timeLine {
+            TwitterAPIManager.shared.getHomeTimeline(success: success)
+        } else {
+            TwitterAPIManager.shared.getMentionsList(success: success)
+        }
+        
+       
+        
+        
     }
 
     @IBAction func logOut(_ sender: AnyObject) {
@@ -129,6 +140,12 @@ extension TweetsViewController: TweetTableViewCellDelegate{
         self.navigationController?.pushViewController(profileViewController, animated: true)
 
     }
+}
+
+
+enum TweetsViewType {
+    case timeLine
+    case mentions
 }
 
 

@@ -17,6 +17,7 @@ class User: NSObject {
     var profileBannerUrl: URL
     var followerCount : NSNumber
     var friendCount : NSNumber
+    var location : String
     
     
     
@@ -26,9 +27,10 @@ class User: NSObject {
         self.id = data.value(forKey: "id_str") as! String
         self.screenName = data.value(forKey: "screen_name") as! String
         self.profileImageUrl = URL(string: (data.value(forKey: "profile_image_url_https") as! String).replacingOccurrences(of: "_normal", with: "_bigger"))!
-        self.profileBannerUrl = URL(string: "\((data.value(forKey: "profile_banner_url") as? String) ?? "https://pbs.twimg.com/profile_banners/6253282/1431474710")/ipad_retina")!
+        self.profileBannerUrl = URL(string: "\((data.value(forKey: "profile_banner_url") as? String) ?? "https://pbs.twimg.com/profile_banners/6253282/1431474710")/600x200")!
         self.followerCount = data.value(forKey: "followers_count") as! NSNumber
         self.friendCount = data.value(forKey: "friends_count") as! NSNumber
+        self.location = (data.value(forKey: "location") as? String) ?? "The Internet"
         
 
 

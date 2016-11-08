@@ -10,10 +10,33 @@ import UIKit
 
 class TweetViewController: UIViewController {
 
-    @IBOutlet weak var replyButton: AnimatedUIButton!
-    @IBOutlet weak var retweetButton: AnimatedUIButton!
-    @IBOutlet weak var favoriteButton: AnimatedUIButton!
-    var tweet : Tweet?
+    @IBOutlet weak var replyButton: UIButton!
+    @IBOutlet weak var retweetButton: UIButton!
+    @IBOutlet weak var favoriteButton: UIButton!
+    var tweet : Tweet?{
+        didSet{
+            if let tweet = tweet {
+                view.layoutIfNeeded()
+                tweetText.text = tweet.text
+                retweetNumber.text = "\(tweet.retweetCount)"
+                favNumber.text = "\(tweet.favoriteCount)"
+                userName.text = tweet.user.name
+                userScreenName.text = "@\(tweet.user.screenName)"
+                
+                userImage.setImageWith(tweet.user.profileImageUrl)
+                
+                if tweet.favorited{
+                    favoriteButton.tintColor = TwitterColor.red
+                }
+                
+                if tweet.retweeted{
+                    retweetButton.tintColor = TwitterColor.green
+                }
+                
+            }
+            
+        }
+    }
     
     
     @IBOutlet weak var favNumber: UILabel!
@@ -30,18 +53,20 @@ class TweetViewController: UIViewController {
         
         
         
-        favoriteButton.imageColorOn = TwitterColor.red
+        
         favoriteButton.addTarget(self, action: #selector(favoriteButtonPressed(sender:)), for: .touchUpInside)
         replyButton.addTarget(self, action: #selector(replyButtonPressed(sender:)), for: .touchUpInside)
         retweetButton.addTarget(self, action: #selector(retweetButtonPressed(sender:)), for: .touchUpInside)
-        retweetButton.imageColorOn = TwitterColor.green
+        
+        favoriteButton.setImage(#imageLiteral(resourceName: "heart").withRenderingMode(.alwaysTemplate), for: .normal)
+        favoriteButton.tintColor = TwitterColor.darkGrey
+        replyButton.setImage(#imageLiteral(resourceName: "reply").withRenderingMode(.alwaysTemplate), for: .normal)
+        replyButton.tintColor = TwitterColor.darkGrey
+        retweetButton.setImage(#imageLiteral(resourceName: "retweet").withRenderingMode(.alwaysTemplate), for: .normal)
+        retweetButton.tintColor = TwitterColor.darkGrey
         
         
         
-        self.userName.text = self.tweet?.user.name
-        self.userScreenName.text = "@\(self.tweet?.user.screenName ?? "")"
-        
-        self.userImage.setImageWith(self.tweet!.user.profileImageUrl)
             
         self.userImage.layer.cornerRadius = 5.0
         self.userImage.clipsToBounds = true
@@ -50,9 +75,7 @@ class TweetViewController: UIViewController {
         userImage.addGestureRecognizer(gestureRecognizer)
             
         
-        self.tweetText.text = self.tweet?.text
-        retweetNumber.text = "\((tweet?.retweetCount)!)"
-        favNumber.text = "\((tweet?.favoriteCount)!)"
+        
         
     }
 
@@ -73,31 +96,32 @@ class TweetViewController: UIViewController {
     }
     */
     
-    func favoriteButtonPressed(sender: AnimatedUIButton) {
-        if sender.isSelected {
-            // deselect
-            sender.deselect()
+    func favoriteButtonPressed(sender: UIButton) {
+        
+        if tweet!.favorited {
+            tweet?.destroyFavorite()
+            favoriteButton.tintColor = TwitterColor.darkGrey
         } else {
-            // select with animation
-            sender.select()
             tweet?.favorite()
+            favoriteButton.tintColor = TwitterColor.red
         }
         favNumber.text = "\((tweet?.favoriteCount)!)"
     }
     
-    func retweetButtonPressed(sender: AnimatedUIButton) {
-        if sender.isSelected {
-            // deselect
-            sender.deselect()
+    func retweetButtonPressed(sender: UIButton) {
+        
+        if tweet!.retweeted {
+            tweet?.destroyRetweet()
+            retweetButton.tintColor = TwitterColor.darkGrey
         } else {
-            // select with animation
-            sender.select()
             tweet?.retweet()
+            retweetButton.tintColor = TwitterColor.green
         }
+        retweetButton.tintColor = TwitterColor.green
         retweetNumber.text = "\((tweet?.retweetCount)!)"
     }
     
-    func replyButtonPressed(sender: AnimatedUIButton) {
+    func replyButtonPressed(sender: UIButton) {
         let newTweetViewController = NewTweetViewController(replyTo: tweet)
         self.present(newTweetViewController, animated: true, completion: nil)
     }
